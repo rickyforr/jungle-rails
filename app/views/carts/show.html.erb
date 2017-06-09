@@ -3,7 +3,7 @@
   <header class="page-header">
     <h1>My Cart</h1>
   </header>
-
+<% if cart != {} %>
   <div class="panel panel-default items">
     <table class="table table-bordered">
       <thead>
@@ -49,5 +49,7 @@
       <% end %>
     </div>
   </div>
-
+  <% else %>
+  <p>Cart is Empty <%= @cart_total %></p><%= link_to "Home", root_path %>
+<% end %>
 </section>
