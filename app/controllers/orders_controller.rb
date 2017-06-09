@@ -19,9 +19,13 @@ class OrdersController < ApplicationController
     charge = perform_stripe_charge
     order  = create_order(charge)
 
+
     if order.valid?
+      # Tell the UserMailer to send a order_email after save
+
       empty_cart!
       redirect_to order, notice: 'Your Order has been placed.'
+      UserMailer.order_confirmation(@user, @order).deliver_later
     else
       redirect_to cart_path, error: order.errors.full_messages.first
     end
