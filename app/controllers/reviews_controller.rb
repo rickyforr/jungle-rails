@@ -5,13 +5,21 @@ class ReviewsController < ApplicationController
     @user = User.last
     @review.user_id = @user.id
 
-
-if @review.save
-      redirect_to :back, notice: 'Review was successfully created.'
-    else
-      redirect_to :back, notice: 'Failed to create the review'
+  if @review.save
+        redirect_to :back, notice: 'Review was successfully created.'
+      else
+        redirect_to :back, notice: 'Failed to create the review'
+      end
     end
-  end
+
+  def destroy
+  @product = Product.find(params[:product_id])
+  @review = @product.reviews.find(params[:id])
+  @review.destroy
+
+  redirect_to product_path(@product)
+end
+
 
   private
     # Never trust parameters from the scary internet, only allow the white list through.

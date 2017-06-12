@@ -8,10 +8,14 @@
 
   <div class="order-summary jumbotron">
     <h4>Thank you for your order!</h4>
-    <% @product.each do |i| %>
-      <h3> <%= i.name %> </h3>
-      <%= image_tag i.image.tiny %>
-      <p> <%= i.description %> </p>
+    <% @line_item.each do |i| %>
+      <h3> <%= i.product.name %> </h3>
+      <%= image_tag i.product.image.tiny %>
+      <p> <%= i.product.description %> </p>
+      <p>Quantity: <%= i.quantity %> </p>
+       <p>Total: <%= humanized_money_with_symbol i.total_price_cents/100 %> </p>
+
+
       <hr>
     <% end %>
   </div>

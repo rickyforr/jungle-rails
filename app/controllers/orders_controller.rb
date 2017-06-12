@@ -25,7 +25,7 @@ class OrdersController < ApplicationController
 
       empty_cart!
       redirect_to order, notice: 'Your Order has been placed.'
-      UserMailer.order_confirmation(@user, @order).deliver_later
+      UserMailer.order_confirmation(@order).deliver_later
     else
       redirect_to cart_path, error: order.errors.full_messages.first
     end

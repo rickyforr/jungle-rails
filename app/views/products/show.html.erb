@@ -23,11 +23,16 @@
           <dt>Price</dt>
           <dd><%= @product.price %></dd>
           <br>
+
           <dt>Reviews</dt>
           <% @product.reviews.order("created_at desc").each do |i| %>
+          <dd><%= i.description %></dd>
 
-    <dd><%= i.description %></dd>
-     <% end %>
+           <%= link_to 'Delete Review',
+                             product_review_path(@product, i),
+                             method: :delete,
+                             data: { confirm: 'Are you sure?' } %>
+          <% end %>
 
         </dl>
       </div>
