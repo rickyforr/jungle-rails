@@ -24,13 +24,14 @@
           <dd><%= @product.price %></dd>
           <br>
           <dt>Reviews</dt>
-          <% @product.reviews.each do |i| %>
+          <% @product.reviews.order("created_at desc").each do |i| %>
 
     <dd><%= i.description %></dd>
      <% end %>
 
         </dl>
       </div>
+    <% if current_user %>
 <%= form_for ([@product, @new_review]) do |form| %>
 <div class="field">
     <%= form.label :reviews %>
@@ -40,8 +41,8 @@
   <div class="actions">
     <%= form.submit %>
   </div>
-    <% end %>
-
+    <% end  %>
+ <%  end %>
     </div>
 
 
