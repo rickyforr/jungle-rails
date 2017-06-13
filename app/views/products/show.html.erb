@@ -5,14 +5,14 @@
   </header>
 
   <article class="product-detail">
-
     <div class="row">
 
-      <div class="col-sm-4">
-        <%= image_tag @product.image.url, class: 'main-img' %>
+      <div class="col-sm-4" style="margin:0px 0px 400px 0px;">
+      <%= image_tag @product.image.url, class: 'main-img' %>
       </div>
 
       <div class="col-sm-8">
+
         <dl class="dl-horizontal">
           <dt>Name</dt>
           <dd><%= @product.name %></dd>
@@ -23,34 +23,44 @@
           <dt>Price</dt>
           <dd><%= @product.price %></dd>
           <br>
+          <dd>
+            <% if current_user %>
 
-          <dt>Reviews</dt>
-          <% @product.reviews.order("created_at desc").each do |i| %>
-          <dd><%= i.description %></dd>
-
-           <%= link_to 'Delete Review',
-                             product_review_path(@product, i),
-                             method: :delete,
-                             data: { confirm: 'Are you sure?' } %>
-          <% end %>
-
+             <div class="col-sm-8">
+             <%= form_for ([@product, @new_review]) do |form| %>
+             <div class="field">
+             <%= form.text_area :description %>
+             <%= form.label :rating %>
+             <%= form.select :rating, options_for_select([1, 2, 3, 4, 5]) %>
+             </div>
+             <div class="actions">
+             <%= form.submit %>
+             </div>
+             <% end  %>
+             <% end %>
+             </div>
+             </dd>
+             <br>
+             <hr>
+          <div class="col-sm-8">
+            <dt>Rating</dt>
+            <dd></dd>
+            <% @product.reviews.order("created_at desc").each do |i| %>
+            <dt><%= i.rating %></dt>
+            <dd><%= i.description %>
+             <% if current_user %>
+             <% if i.user_id == current_user.id %>
+             <%= link_to 'delete',
+                               product_review_path(@product, i),
+                               method: :delete,
+                               data: { confirm: 'Are you sure?' } %></dd>
+             <% end %>
+             <% end %>
+             <% end %>
+          </div>
         </dl>
+
       </div>
-    <% if current_user %>
-<%= form_for ([@product, @new_review]) do |form| %>
-<div class="field">
-    <%= form.label :reviews %>
-    <%= form.text_area :description %>
-    <%= form.select :rating, options_for_select([1, 2, 3, 4, 5]) %>
-  </div>
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-    <% end  %>
- <%  end %>
-    </div>
-
-
   </article>
 
 </section>
